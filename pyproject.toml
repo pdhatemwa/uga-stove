@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uga-stove"
+version = "0.1.0"
+description = "Secure stove distribution registry and field data system"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "alembic==1.19.2",
+  "argon2-cffi==25.1.0",
+  "boto3==1.43.91",
+  "fastapi==0.141.1",
+  "httpx==0.28.1",
+  "pandas==2.3.3",
+  "psycopg[binary]==3.3.5",
+  "pydantic-settings==2.15.0",
+  "PyJWT==2.13.0",
+  "python-multipart==0.0.32",
+  "qrcode[pil]==8.2",
+  "reportlab==4.5.1",
+  "requests==2.34.2",
+  "sqlalchemy==2.0.52",
+  "streamlit==1.63.0",
+  "uvicorn[standard]==0.52.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.4.2",
+  "pytest-cov==6.3.0",
+  "ruff==0.16.6",
+]
+
+[tool.setuptools.packages.find]
+include = ["api*", "web*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"api/routers/*.py" = ["B008"]
+"api/schemas.py" = ["S105"]
+"tests/*.py" = ["S105"]

@@ -1,0 +1,1 @@
+"""UGA Stove Streamlit interface."""
