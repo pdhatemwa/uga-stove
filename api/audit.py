@@ -20,6 +20,7 @@ def audit_event(
 ) -> None:
     request_id = getattr(request.state, "request_id", None) if request else None
     client_ip = request.client.host if request and request.client else None
+
     db.add(
         AuditLog(
             actor_user_id=actor.id if actor else None,
@@ -36,6 +37,8 @@ def audit_event(
 
 
 def record_snapshot(distribution) -> dict[str, Any]:
+    evidence = getattr(distribution, "signature_evidence", None)
+
     return {
         "household_uid": distribution.household.household_uid,
         "household_head_name": distribution.household.household_head_name,
@@ -52,5 +55,6 @@ def record_snapshot(distribution) -> dict[str, Any]:
         "receiver_name": distribution.receiver_name,
         "ambassador_name": distribution.ambassador_name,
         "signature_status": distribution.signature_status.value,
+        "signature_method": evidence.method if evidence else None,
         "row_version": distribution.row_version,
     }

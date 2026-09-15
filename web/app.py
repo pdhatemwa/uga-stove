@@ -8,7 +8,7 @@ import streamlit as st
 
 from web.api_client import ApiClient, ApiError
 
-st.set_page_config(page_title="UGA Stove", page_icon="🔥", layout="wide")
+st.set_page_config(page_title="UGA Stove Admin interface", layout="wide")
 st.markdown(
     """
     <style>
@@ -43,7 +43,7 @@ def handle_error(exc: ApiError) -> None:
 def login_page() -> None:
     left, center, right = st.columns([1, 1.3, 1])
     with center:
-        st.title("🔥 UGA Stove")
+        st.title("UGA Stove")
         st.caption("Secure stove distribution registry for Ntungamo")
         with st.form("login"):
             username = st.text_input("Username")

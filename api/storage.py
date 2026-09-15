@@ -15,6 +15,7 @@ ALLOWED_IMAGE_TYPES = {"image/jpeg": "jpg", "image/png": "png"}
 ALLOWED_CONTENT_TYPES = {**ALLOWED_IMAGE_TYPES, "application/pdf": "pdf"}
 
 
+
 @dataclass(frozen=True)
 class StoredEvidence:
     object_key: str
