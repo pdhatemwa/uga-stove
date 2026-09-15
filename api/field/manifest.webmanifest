@@ -1,0 +1,11 @@
+{
+    "name": "UGA Stove Field Capture",
+    "short_name": "UGA Stove",
+    "description": "Offline household stove distribution data capture for Ntungamo.",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#edf5f1",
+    "theme_color": "#176b4d",
+    "orientation": "portrait"
+}

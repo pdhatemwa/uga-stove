@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+    <meta name="theme-color" content="#176b4d">
+    <title>UGA Stove Field Capture</title>
+
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <main class="app-shell">
+        <header class="app-header">
+            <div>
+                <p class="eyebrow">UGA Stove</p>
+                <h1>Field Capture</h1>
+            </div>
+
+            <span id="connection-status" class="status-pill offline">
+                Checking connection
+            </span>
+        </header>
+
+        <section id="login-screen" class="screen">
+            <div class="card">
+                <h2>Sign in before fieldwork</h2>
+                <p class="help-text">
+                    Sign in while connected to the internet. You can then save
+                    household records on this phone when offline.
+                </p>
+
+                <form id="login-form">
+                    <label for="username">Username</label>
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <label for="password">Password</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button type="submit" class="primary-button">
+                        Sign in
+                    </button>
+                </form>
+
+                <p id="login-message" class="message" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <section id="field-screen" class="screen hidden">
+            <div class="summary-bar">
+                <div>
+                    <span class="summary-label">Signed in as</span>
+                    <strong id="current-user-name"></strong>
+                </div>
+
+                <div>
+                    <span class="summary-label">Waiting to sync</span>
+                    <strong id="pending-count">0</strong>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>New stove distribution</h2>
+                <p class="help-text">
+                    Enter one household at a time. Household ID and stove serial
+                    number must each be used only once.
+                </p>
+
+                <form id="record-form">
+                    <fieldset>
+                        <legend>Household details</legend>
+
+                        <label for="household-uid">Household ID</label>
+                        <input
+                            id="household-uid"
+                            name="household_uid"
+                            type="text"
+                            autocomplete="off"
+                            autocapitalize="characters"
+                            required
+                        >
+
+                        <label for="household-head-name">Family name</label>
+                        <input
+                            id="household-head-name"
+                            name="household_head_name"
+                            type="text"
+                            autocomplete="name"
+                            required
+                        >
+
+                        <label for="household-size">
+                            Number of people in household
+                        </label>
+                        <input
+                            id="household-size"
+                            name="household_size"
+                            type="text"
+                            inputmode="numeric"
+                            pattern="[0-9]*"
+                            placeholder="Example: 5"
+                            required
+                        >
+
+                        <label for="phone-number">Mobile number</label>
+                        <input
+                            id="phone-number"
+                            name="phone_number"
+                            type="tel"
+                            inputmode="tel"
+                            autocomplete="tel"
+                        >
+
+                        <label for="additional-contact">
+                            Additional contact information
+                        </label>
+                        <input
+                            id="additional-contact"
+                            name="additional_contact"
+                            type="text"
+                        >
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Stove details</legend>
+
+                        <label for="distribution-point">
+                            Distribution point
+                        </label>
+                        <select
+                            id="distribution-point"
+                            name="distribution_point_id"
+                            required
+                        >
+                            <option value="">Choose distribution point</option>
+                        </select>
+
+                        <label for="stove-size">Stove type or size</label>
+                        <input
+                            id="stove-size"
+                            name="stove_size"
+                            type="text"
+                            required
+                        >
+
+                        <label for="serial-number">Stove serial number</label>
+                        <input
+                            id="serial-number"
+                            name="serial_number"
+                            type="text"
+                            autocomplete="off"
+                            autocapitalize="characters"
+                            required
+                        >
+
+                        <label for="distributed-on">Date given</label>
+                        <input
+                            id="distributed-on"
+                            name="distributed_on"
+                            type="date"
+                            required
+                        >
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Location and confirmation</legend>
+
+                        <label for="subcounty">Subcounty</label>
+                        <input
+                            id="subcounty"
+                            name="subcounty"
+                            type="text"
+                        >
+
+                        <label for="parish">Parish</label>
+                        <input
+                            id="parish"
+                            name="parish"
+                            type="text"
+                        >
+
+                        <label for="village">Village</label>
+                        <input
+                            id="village"
+                            name="village"
+                            type="text"
+                        >
+
+                        <label for="receiver-name">
+                            Name of person receiving stove
+                        </label>
+                        <input
+                            id="receiver-name"
+                            name="receiver_name"
+                            type="text"
+                            required
+                        >
+
+                        <label for="ambassador-name">Ambassador name</label>
+                        <input
+                            id="ambassador-name"
+                            name="ambassador_name"
+                            type="text"
+                        >
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Beneficiary confirmation</legend>
+
+                        <p class="help-text">
+                            Choose either a signature made on the screen or a
+                            photo of an ink thumbprint on the printed form.
+                        </p>
+
+                        <div class="choice-row">
+                            <label class="choice-label">
+                                <input
+                                    type="radio"
+                                    name="evidence_type"
+                                    value="beneficiary_signature"
+                                    checked
+                                >
+                                Signature on screen
+                            </label>
+
+                            <label class="choice-label">
+                                <input
+                                    type="radio"
+                                    name="evidence_type"
+                                    value="thumbprint"
+                                >
+                                Photo of thumbprint
+                            </label>
+                        </div>
+
+                        <div id="signature-area">
+                            <label for="signature-canvas">
+                                Beneficiary signature
+                            </label>
+
+                            <canvas
+                                id="signature-canvas"
+                                width="700"
+                                height="250"
+                                aria-label="Signature area"
+                            ></canvas>
+
+                            <button
+                                id="clear-signature"
+                                type="button"
+                                class="secondary-button"
+                            >
+                                Clear signature
+                            </button>
+                        </div>
+
+                        <div id="thumbprint-area" class="hidden">
+                            <label for="thumbprint-photo">
+                                Photograph the ink thumbprint
+                            </label>
+
+                            <input
+                                id="thumbprint-photo"
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                            >
+                        </div>
+                    </fieldset>
+
+                    <p id="record-message" class="message" aria-live="polite"></p>
+
+                    <button type="submit" class="primary-button">
+                        Save on this phone
+                    </button>
+                </form>
+            </div>
+
+            <section class="card">
+                <h2>Records waiting to sync</h2>
+
+                <div class="button-row">
+                    <button id="sync-button" type="button" class="primary-button">
+                        Send saved records
+                    </button>
+
+                    <button id="sign-out-button" type="button" class="secondary-button">
+                        Sign out from this phone
+                    </button>
+                </div>
+
+                <p id="sync-message" class="message" aria-live="polite"></p>
+
+                <div id="pending-records" class="pending-records"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="./app.js"></script>
+</body>
+</html>
